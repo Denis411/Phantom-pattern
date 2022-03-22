@@ -1,7 +1,7 @@
 import Foundation
 import PlaygroundSupport
 
-// Phanotm type
+// Phantom type
 
 struct BloodType<Type>: Equatable {
     let amount: Double
