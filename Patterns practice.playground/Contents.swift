@@ -1,56 +1,42 @@
 import Foundation
 
-protocol DecoratorImp {
-    func cost() -> Double
-    func name() -> String
+protocol Builder {
+    func setName(_ name: String)
+    func setModel(_ num: Int)
+    func create() -> Phone
 }
 
-class DecoratedProduct: DecoratorImp {
-    let product: DecoratorImp
-    
-    init(product: DecoratorImp) {
-        self.product = product
-    }
-    
-    func cost() -> Double {
-        product.cost()
-    }
-    
-    func name() -> String {
-        product.name()
-    }
+protocol Phone {
+    var name: String { set get }
+    var model: Int { set get }
 }
 
-final class BaseProduct: DecoratorImp {
-    func cost() -> Double {
-        100
-    }
+class ClassPhone: Phone {
+    var name: String
+    var model: Int
     
-    func name() -> String {
-        "Ice-cream"
+    init(name: String, model: Int) {
+        self.model = model
+        self.name = name
     }
 }
 
-final class Chocolate: DecoratedProduct {
-    override func cost() -> Double {
-        super.cost() + 110
+class iPhone: Builder {
+    var name: String = "iPhone"
+    var model: Int = 13
+    
+    func setName(_ name: String) {
+        self.name = name
     }
     
-    override func name() -> String {
-        super.name() + ", extro chocolate"
+    func setModel(_ num: Int) {
+        self.model = num
+    }
+    
+    func create() -> Phone {
+        ClassPhone(name: self.name, model: self.model)
     }
 }
 
-final class Coconat: DecoratedProduct {
-    override func cost() -> Double {
-        super.cost() + 75
-    }
-    
-    override func name() -> String {
-        super.name() + ", coconat"
-    }
-}
 
-let customIce = Chocolate(product: Coconat(product: BaseProduct()))
-customIce.cost()
-customIce.name()
+
